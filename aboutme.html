@@ -48,5 +48,59 @@
                         <td align="center">4 days</td>
                     </tr>
                 </table>
+                <hr>
+                <h2>Code Display</h2>
+                <p>Quote from stackoverflow about smooth scrolling in jQuery</p>
+                <blockquote cite="https://stackoverflow.com/questions/7717527/smooth-scrolling-when-clicking-an-anchor-link">
+                    I have a couple of hyperlinks on my page. A FAQ that users will read when they visit my help<br>
+                    section.<br>
+                    <br>
+                    Using Anchor links, I can make the page scroll towards the anchor and guide the users there.<br>
+                    <br>
+                    Is there a way to make that scrolling smooth?<br>
+                    <br>
+                    But notice that he's using a custom JavaScript library. Maybe jQuery offers somethings like this<br> 
+                    baked in?
+                </blockquote>
+                <a href="https://stackoverflow.com/questions/7717527/smooth-scrolling-when-clicking-an-anchor-link">Link to smooth scrolling question.</a>
+                <pre>
+                    // Select all links with hashes
+                    $('a[href*="#"]')
+                        // Remove links that don't actually link to anything
+                        .not('[href="#"]')
+                        .not('[href="#0"]')
+                        .click(function(event) {
+                        // On-page links
+                        if (
+                            location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+                            && 
+                            location.hostname == this.hostname
+                        ) {
+                        // Figure out element to scroll to
+                        var target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                        // Does a scroll target exist?
+                        if (target.length) {
+                            // Only prevent default if animation is actually gonna happen
+                            event.preventDefault();
+                            $('html, body').animate({
+                                scrollTop: target.offset().top
+                            }, 1000, function() {
+                                // Callback after animation
+                                // Must change focus!
+                                var $target = $(target);
+                                $target.focus();
+                                if ($target.is(":focus")) { // Checking if the target was focused
+                                    return false;
+                                } else {
+                                    $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+                                    $target.focus(); // Set focus again
+                                };
+                            });
+                        }
+                    }
+                });
+                </pre>
+
     </body>
 </html>
